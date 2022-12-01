@@ -27,6 +27,13 @@
 
 
 
+
+
+
+
+
+
+
 // Let us step back and think about the behaviour a shopping cart
 // -> A Shopping Cart can be Empty, Active or PaidFor
 // -> When you add an item to an Empty cart, it becomes Active

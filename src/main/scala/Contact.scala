@@ -1,6 +1,8 @@
+package com.designingtypes
+
 // Credits:
 // Scott Wlaschin - The "Designing With Types" series - https://fsharpforfunandprofit.com/series/designing-with-types/
-package com.designingtypes
+
 // Step 1: Group attributes which will change together in a transaction
 case class Name(firstName: String, middleName: String, lastName: String)
 case class EmailContact(emailAddress: String, isEmailVerified: Boolean)
@@ -166,13 +168,48 @@ case class ContactBusinessReallyNeeds(name: Name, primaryContactMethod: ContactM
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// see those boolean flags for email verification? we can change that to a sum type too!
+sealed trait EmailContactV2
+case class VerifiedEmail(emailAddress: String) extends EmailContactV2
+case class UnverifiedEmail(emailAddress: String) extends EmailContactV2
+
+// an event handler
+// "Guideline: Event handling functions should always accept and return the entire state machine"
+object EmailContactV2 {
+  def verifyEmail(email: EmailContactV2): EmailContactV2 = email match {
+    case VerifiedEmail(_) => email
+    case UnverifiedEmail(emailAddress) => VerifiedEmail(emailAddress = emailAddress)
+  }
+}
+
+
+
+
+
+
+
 // todo
-// replace boolean verified / unverified flags of email contact info - https://fsharpforfunandprofit.com/posts/designing-with-types-representing-states/#using-explicit-states-to-replace-boolean-flags
-
-// event handling functions - https://fsharpforfunandprofit.com/posts/designing-with-types-representing-states/#designing-event-handling-functions
-
-// do we want to do this package delivery thing OR shopping cart thing
-// https://fsharpforfunandprofit.com/posts/designing-with-types-representing-states/#using-explicit-cases-to-replace-caseswitch-statements
 
 // see this order thing, this is small too
 // https://fsharpforfunandprofit.com/posts/designing-with-types-representing-states/#using-explicit-cases-to-replace-implicit-conditional-code
